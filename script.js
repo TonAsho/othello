@@ -77,6 +77,6 @@ function start() {
 function place() {
     for(let i = 0; i < H; ++i) for(let j = 0; j < W; ++j) {
         if(field[i][j] != 0) continue;
-        if(change[i][j]) document.getElementById(String(8 * i + (j + 1))).style.backgroundColor = "red";
+        if(change(i, j) document.getElementById(String(8 * i + (j + 1))).style.backgroundColor = "red";
     }
 }
