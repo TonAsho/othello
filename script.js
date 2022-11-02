@@ -72,11 +72,12 @@ function start() {
         if(field[i][j] == 1) add.className = "black", document.getElementById(String(8 * i + (j + 1))).appendChild(add);
         if(field[i][j] == -1) add.className = "white", document.getElementById(String(8 * i + (j + 1))).appendChild(add);
     }
-    
+    place();
 }
 function place() {
     for(let i = 0; i < H; ++i) for(let j = 0; j < W; ++j) {
         if(field[i][j] != 0) continue;
         if(change(i, j) document.getElementById(String(8 * i + (j + 1))).style.backgroundColor = "red";
+        else document.getElementById(String(8 * i + (j + 1))).style.backgroundColor = "lightgreen";
     }
 }
