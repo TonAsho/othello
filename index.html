@@ -5,164 +5,52 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Play Syougi JavaScript Html Css By TonAsho</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <style>
-html {
-    height: 100%;
-    width: 100%;
-}
-.body{
-    padding: 0;
-    margin: 0;
-    position: relative;
-    height: 100%;
-    width: 100%;
-}
-.border{
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    margin: auto;
-    background-color: green;
-    height: 100vmin;
-    width: 100vmin;
-}
-.content{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    width: 100%;
-}
-.ban{
-    height: 95px;
-    width: 95px;
-    max-height: 95px;
-    max-width: 95px;
-    background-color: lightgreen;
-    border: black solid 1px;
-    cursor: pointer;
-}
-.banAni {
-    height: 95px;
-    width: 95px;
-    max-height: 95px;
-    max-width: 95px;
-    background-color: lightgreen;
-    border: black solid 1px;
-    cursor: pointer;
-    animation: ugoki 1s linear infinite alternate;
-}
-@keyframes ugoki {
-0%{
-    opacity: 0.6;
-}  
-100%{
-    opacity: 1.0;
-}
-}
-.ban .black{
-    height: 80px;
-    width: 80px;
-    border-radius: 50%;
-    background-color: black;
-    border: black 1px;
-    position: relative;
-    top: 10px;
-    left: 9px;
-    box-shadow: 0 0 15px gray ;
-    animation: animation forwards 0.7s ease-in;
-}
-
-@keyframes animation{
-
-    0% {
-    opacity: 0;
+    .non {
+        height: 30%;
+        width: 40%;
+        background-color: rgb(237, 242, 247);
+        box-shadow:
+            2.8px 2.8px 5.5px rgba(0, 0, 0, 0.042),
+            6.7px 6.7px 13.3px rgba(0, 0, 0, 0.061),
+            12.5px 12.5px 25px rgba(0, 0, 0, 0.075),
+            22.3px 22.3px 44.7px rgba(0, 0, 0, 0.089),
+            41.8px 41.8px 83.6px rgba(0, 0, 0, 0.108),
+            100px 100px 200px rgba(0, 0, 0, 0.15)
+        ;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+        text-align: center;
     }
-    30%{
-        height: 10px;
-        width: 10px;
+    .alerts {
+        padding: 1%;
+        font-family: sans-serif;
+        font-size: clamp(15px, 2.9vw, 12px);
+        color: red;
     }
-    50%{
-        opacity: 0.5;
+    .alert {
+        padding: 5%;
+        font-family: sans-serif;
+        font-size: clamp(16px, 2.9vw, 32px);
     }
-    70%{
-        height: 100px;
-        width: 100px;
-        opacity: 0.7;
+    .con {
+        height: 100%;
+        width: 100%;
+        text-align: center;
+        justify-content: center;
     }
-    100% {
-    opacity: 1;
-    }
-}
-.ban .white{
-    height: 80px;
-    width: 80px;
-    border-radius: 50%;
-    background-color: white;
-    border: black 1px;
-    position: relative;
-    top: 10px;
-    left: 9px;
-    box-shadow: 0 0 15px gray ;
-    animation: animation forwards 0.7s ease-in;
-}
-@keyframes animations{
-    0%{
-        transform:rotateX(0);
-    }
-    50%{
-        height: 90px;
-        width: 90px;
-    }
-    100%{
-        height: 80px;
-        width: 80px;
-        transform:rotateX(180deg); 
-    }
-}
-
-
-
-
-.card {
-    width: 400px;
-    flex-direction: column;
-    min-width: 0;
-    color: #fff;
-    word-wrap: break-word;
-    background-color: #000;
-    background-clip: border-box;
-    border: 1px solid #000;
-    border-radius: 6px;
-    -webkit-box-shadow: 0px 0px 5px 0px rgb(249, 249, 250);
-    -moz-box-shadow: 0px 0px 5px 0px rgba(212, 182, 212, 1);
-    box-shadow: 0px 0px 5px 0px rgb(161, 163, 164);
-  }
-  
-  .cookie a {
-    text-decoration: none;
-    color: #000;
-    margin-top: 8px;
-    font-size: 12px;
-  }
-  
-  .cookie a {
-    text-decoration: none;
-    color: #fff;
-    margin-top: 8px;
-  }
-  
-  .decline {
-    cursor: pointer;
-  }
 </style>
 <body class="body">
     <div class="border" id="border">
         <div class="content">
             <div class="ban" id="1" onclick="yech(this.id)"></div>
-            <div class="ban" id="2" onclick="yech(this.id)" onclick="yech(this.id)"></div>
+            <div class="ban" id="2" onclick="yech(this.id)"></div>
             <div class="ban" id="3" onclick="yech(this.id)"></div>
             <div class="ban" id="4" onclick="yech(this.id)"></div>
             <div class="ban" id="5" onclick="yech(this.id)"></div>
@@ -242,7 +130,12 @@ html {
         </div>
     </div>
     <div id="non" class="non" style="display: none;">
-
+        <div class="con">
+            <div class="alerts">通知</div>
+            <div class="alert" id="alert"></div>
+            <button class="button-37" role="button" id="button">OK!</button>
+        </div>
+        
     </div>
     <script src="script.js"></script>
 </body>
