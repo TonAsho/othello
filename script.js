@@ -36,6 +36,7 @@ function yech(id) {
         if(number === 64) finish();
     }
     else console.log("NoNoNo! error!"); 
+
 }
 function change(h, w) {
     for(let i = 0; i < 8; ++i) {
@@ -80,7 +81,7 @@ function start() {
         if(field[i][j] == -1) add.className = "white", get(i, j).appendChild(add);
     }
     putMark();
-    getId("non").style.display = "flex";
+    al("対局開始！");
 }
 function delMark() {
     mark.forEach(e => {
@@ -99,14 +100,15 @@ function putMark() {
     }
     if(mark.length === 0) {
         if(notPut) {
-            alert("試合終了！");
+            if(number === 64) return;
+            al("試合終了！");
             notPut = false;
             finish();
             return;
         }
         if(turn === 1) turn = -1;
         else turn = 1;
-        alert("置けまへんのでパスします！");
+        al("置けまへんのでパスします！");
         notPut = true;
         putMark();
     } else notPut = false;
@@ -123,7 +125,23 @@ function finish() {
         if(field[i][j] === 1) black++;
         else if(field[i][j] === -1) white++;
     }
-    if(black < white) alert(`黒${black}、白${white}で「白」の${white-black}勝ち！`);
-    else if(white < black) alert(`黒${black}、白${white}で「黒」${black-white}の勝ち！`);
-    else alert(`黒${black}、白${white}で「引き分け」！`);
+    if(black < white) al(`黒${black}、白${white}で「白」の${white-black}個勝ち！`);
+    else if(white < black) al(`黒${black}、白${white}で「黒」の${black-white}個勝ち！`);
+    else al(`黒${black}、白${white}で「引き分け」！`);
+}
+function al(e) {
+    getId("alert").innerHTML = e;
+    getId("non").style.display = "flex";
+    getId("border").style.pointerEvents = "none";
+    getId("border").style.opacity = "0.5";
+    new Promise((resolve, reject) => {
+        document.getElementById("button").addEventListener("click", (e) => {
+            console.log("Ljfd")
+            resolve();
+        })
+    }).then(() => {
+        getId("non").style.display = "none";
+        getId("border").style.pointerEvents = "auto";
+        getId("border").style.opacity = "1.0";
+    })
 }
