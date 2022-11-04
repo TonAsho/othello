@@ -125,8 +125,8 @@ function finish() {
         if(field[i][j] === 1) black++;
         else if(field[i][j] === -1) white++;
     }
-    if(black < white) al(`黒${black}、白${white}で「白」の${white-black}個勝ち！`);
-    else if(white < black) al(`黒${black}、白${white}で「黒」の${black-white}個勝ち！`);
+    if(black < white) al(`黒${black}、白${white}で「白」の勝ち！`);
+    else if(white < black) al(`黒${black}、白${white}で「黒」の勝ち！`);
     else al(`黒${black}、白${white}で「引き分け」！`);
 }
 function al(e) {
