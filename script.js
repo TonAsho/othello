@@ -8,6 +8,9 @@ let field = [ // "1" is black, "-1" is white;
     [0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0],
 ];
+const WaitForClick = () => new Promise(resolve => document.getElementById("button").addEventListener("click", (e) => {
+    resolve();
+}));
 let turn = 1; // black
 let H = 8, W = 8;
 const moveH = [0, 0, 1, -1, 1, 1, -1, -1];
@@ -15,6 +18,8 @@ const moveW = [1, -1, 0, 0, 1, -1, -1, 1];
 let mark = [], his = [];
 let hh, ww, cnt, notPut = false, number = 4;
 let can_turn = [], now = []; // ひっくり返せる駒のID
+let p1m = 0, p2m = 0, p1s = 0, p2s = 0; //second
+let interval1, interval2, timeou = false, countTime = true;;
 start();
 function yech(id) { 
     let h = Math.floor(id / 8), w = id % 8;
@@ -24,6 +29,10 @@ function yech(id) {
     // おいてとれるか
     // ひっくり返す
     if(change(h, w)) {
+        if(countTime) {
+            if(turn == -1) startTimer(-1), stopTimer(1);
+            else startTimer(1), stopTimer(-1);
+        }
         if(his.length > 0) getId(his[his.length-1]).style.backgroundColor = "lightgreen";
         delMark(), can_turn.push(id), changeColor();
         his.push(id);
@@ -35,7 +44,10 @@ function yech(id) {
         number++;
         if(number === 64) finish();
     }
-    else console.log("NoNoNo! error!"); 
+    else {
+        let input = ["そこには置けません！"];
+        al(input);
+    } 
 
 }
 function change(h, w) {
@@ -81,11 +93,13 @@ function start() {
         if(field[i][j] == -1) add.className = "white", get(i, j).appendChild(add);
     }
     putMark();
-    al("対局開始！");
+    let input = ["対局開始！", "持ち時間設定", "駒を置いたら時計がスタートします。"];
+    al(input);
 }
 function delMark() {
     mark.forEach(e => {
-        document.getElementById(String(e)).className = "ban";
+        //document.getElementById(String(e)).className = "ban";
+        document.getElementById(String(e)).innerHTML = "";
     });
     mark = [];
 }
@@ -94,14 +108,15 @@ function putMark() {
         if(field[i][j] != 0) continue;
         if(change(i, j)) {
             mark.push(8 * i + j + 1);
-            get(i, j).className = "banAni";
+            let add = document.createElement("div");
+            add.className = "banMark";
+            get(i, j).appendChild(add);
         }
         can_turn = [], now = [];
     }
     if(mark.length === 0) {
         if(notPut) {
             if(number === 64) return;
-            al("試合終了！");
             notPut = false;
             finish();
             return;
@@ -125,23 +140,87 @@ function finish() {
         if(field[i][j] === 1) black++;
         else if(field[i][j] === -1) white++;
     }
-    if(black < white) al(`黒${black}、白${white}で「白」の勝ち！`);
-    else if(white < black) al(`黒${black}、白${white}で「黒」の勝ち！`);
-    else al(`黒${black}、白${white}で「引き分け」！`);
+    let input = ["試合終了！"];
+    if(timeou && turn == 1) input.push("時間切れにより白の勝ち！");
+    else if(timeou && turn == -1) input.push("時間切れにより黒の勝ち！");
+    else if(black < white) input.push(`黒${black}、白${white}で「白」の勝ち！`);
+    else if(white < black) input.push(`黒${black}、白${white}で「黒」の勝ち！`);
+    else input.push(`黒${black}、白${white}で「引き分け」！`);
+    al(input);
+    countTime = false;
+    stopTimer(turn);
+    timeou = false;
 }
-function al(e) {
-    getId("alert").innerHTML = e;
-    getId("non").style.display = "flex";
-    getId("border").style.pointerEvents = "none";
-    getId("border").style.opacity = "0.5";
-    new Promise((resolve, reject) => {
-        document.getElementById("button").addEventListener("click", (e) => {
-            console.log("Ljfd")
-            resolve();
-        })
-    }).then(() => {
+async function al(e) {
+    for(let i = 0; i < e.length; ++i) {
+        getId("alert").innerHTML = e[i];
+        getId("non").style.display = "flex";
+        getId("border").style.pointerEvents = "none";
+        getId("border").style.opacity = "0.5";
+        if(e[i] == "持ち時間設定") getId("num").style.display = "block";
+        await WaitForClick();
         getId("non").style.display = "none";
         getId("border").style.pointerEvents = "auto";
-        getId("border").style.opacity = "1.0";
-    })
+        getId("border").style.opacity = "1.0";  
+        if(e[i] == "持ち時間設定") getId("num").style.display = "none";
+    }
+}
+document.getElementById("minute").addEventListener("input", (e) => {
+    p1m = e.target.value;
+    p2m = e.target.value;
+    if(0 <= p1s && p1s <= 9) getId("p1").innerHTML = `${p1m}:0${p1s}`;
+    else getId("p1").innerHTML = `${p1m}:${p1s}`;
+    if(0 <= p2s && p2s <= 9) getId("p2").innerHTML = `${p2m}:0${p2s}`;
+    else getId("p2").innerHTML = `${p2m}:${p2s}`;
+})
+document.getElementById("second").addEventListener("input", (e) => {
+    p1s = e.target.value * 10;
+    p2s = e.target.value * 10;
+    if(0 <= p1s / 10 && n(p1s) <= 9) getId("p1").innerHTML = `${p1m}:0${n(p1s)}`;
+    else getId("p1").innerHTML = `${p1m}:${n(p1s)}`;
+    if(0 <= p2s / 10 && n(p2s) <= 9) getId("p2").innerHTML = `${p2m}:0${n(p2s)}`;
+    else getId("p2").innerHTML = `${p2m}:${n(p2s)}`;
+})
+function startTimer(whi) {
+    if(whi == 1) {
+        interval1 = setInterval(() => {
+            p1s--;
+            set();
+        }, 100);
+    } else {
+        interval2 = setInterval(() => {
+            p2s--;
+            set();
+        }, 100);
+    }
+
+}
+function stopTimer(e) {
+    if(e == 1) clearInterval(interval1);
+    else clearInterval(interval2);
+}
+function set() {
+    let timoff = false, c;
+    if(p1m == 0 && p1s <= 0) {
+        timoff = true;
+        c = 1;
+    } else if(p1s < 0) {
+        p1s = 590;
+        p1m--;
+    }
+    if(p2m == 0 && p2s <= 0) {
+        timoff = true;
+        c = -1;
+    } else if(p2s < 0) {
+        p2s = 590;
+        p2m--;
+    }
+    if(0 <= p1s / 10 && n(p1s) <= 9) getId("p1").innerHTML = `${p1m}:0${n(p1s)}`;
+    else getId("p1").innerHTML = `${p1m}:${n(p1s)}`;
+    if(0 <= p2s / 10 && n(p2s) <= 9) getId("p2").innerHTML = `${p2m}:0${n(p2s)}`;
+    else getId("p2").innerHTML = `${p2m}:${n(p2s)}`;
+    if(timoff) timeou = true, stopTimer(c), finish();
+}
+function n(e) {
+    return Math.floor(e / 10);
 }
