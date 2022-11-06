@@ -7,46 +7,10 @@
     <title>Play Syougi JavaScript Html Css By TonAsho</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<style>
-    .non {
-        height: 30%;
-        width: 40%;
-        background-color: rgb(237, 242, 247);
-        box-shadow:
-            2.8px 2.8px 5.5px rgba(0, 0, 0, 0.042),
-            6.7px 6.7px 13.3px rgba(0, 0, 0, 0.061),
-            12.5px 12.5px 25px rgba(0, 0, 0, 0.075),
-            22.3px 22.3px 44.7px rgba(0, 0, 0, 0.089),
-            41.8px 41.8px 83.6px rgba(0, 0, 0, 0.108),
-            100px 100px 200px rgba(0, 0, 0, 0.15)
-        ;
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        margin: auto;
-        text-align: center;
-    }
-    .alerts {
-        padding: 1%;
-        font-family: sans-serif;
-        font-size: clamp(15px, 2.9vw, 12px);
-        color: red;
-    }
-    .alert {
-        padding: 5%;
-        font-family: sans-serif;
-        font-size: clamp(16px, 2.9vw, 32px);
-    }
-    .con {
-        height: 100%;
-        width: 100%;
-        text-align: center;
-        justify-content: center;
-    }
-</style>
 <body class="body">
+    <div class="time1">
+        <div class="timer"><div class="now" id="p1">0:00</div></div>
+    </div>
     <div class="border" id="border">
         <div class="content">
             <div class="ban" id="1" onclick="yech(this.id)"></div>
@@ -129,10 +93,17 @@
             <div class="ban" id="64" onclick="yech(this.id)"></div>
         </div>
     </div>
+    <div class="time2">
+        <div class="timer2"><div class="now" id="p2">0:00</div></div>
+    </div>
     <div id="non" class="non" style="display: none;">
         <div class="con">
             <div class="alerts">通知</div>
             <div class="alert" id="alert"></div>
+            <div class="num" id="num" style="display: none;">
+                <input type="number" placeholder="分" value="0" id="minute" min="0">
+                <input type="number" placeholder="秒" value="0" id="second" min="0" max="60">
+            </div>
             <button class="button-37" role="button" id="button">OK!</button>
         </div>
         
